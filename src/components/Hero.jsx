@@ -1,68 +1,74 @@
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
+import SmartImage from './SmartImage'
+import { siteConfig } from '../data/site'
+
+const fade = (delay) => ({
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, delay },
+})
 
 function Hero() {
   return (
-    <section className="relative py-20 md:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background gradient accent */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-pale-purple rounded-full filter blur-3xl opacity-30 -z-10"></div>
-      
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
-        >
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold text-gray-900 mb-4"
-          >
-            Christopher Skora
+    <section className="relative overflow-hidden px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+      <div className="absolute -right-20 top-0 -z-10 h-96 w-96 rounded-full bg-pale-purple opacity-40 blur-3xl dark:bg-primary-purple/20" />
+
+      <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:gap-14">
+        <div className="text-center md:text-left">
+          <motion.h1 {...fade(0.05)} className="text-4xl font-bold text-gray-900 md:text-6xl dark:text-white">
+            {siteConfig.name}
           </motion.h1>
-          
+
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl md:text-2xl text-primary-purple font-medium mb-6"
+            {...fade(0.15)}
+            className="mt-3 text-xl font-medium text-primary-purple md:text-2xl dark:text-light-purple"
           >
-            Nanotechnology Engineering Student
+            {siteConfig.title}
           </motion.p>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="max-w-2xl mx-auto text-gray-600 text-lg leading-relaxed"
+
+          <motion.p
+            {...fade(0.25)}
+            className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-gray-600 md:mx-0 dark:text-gray-300"
           >
-            <p>
-              University of Waterloo student passionate about experimental physics, detector systems, 
-              and data analysis. Experienced in nuclear instrumentation, waveform digitization, 
-              and building analysis pipelines for precision radioisotope studies.
-            </p>
-          </motion.div>
-          
+            University of Waterloo student passionate about experimental physics, detector systems,
+            and data analysis. Experienced in nuclear instrumentation, waveform digitization, and
+            building analysis pipelines for precision radioisotope studies.
+          </motion.p>
+
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-8 flex justify-center space-x-4"
+            {...fade(0.35)}
+            className="mt-8 flex flex-wrap justify-center gap-3 md:justify-start"
           >
             <a
               href="#projects"
-              className="px-6 py-3 bg-primary-purple text-white font-medium rounded-lg hover:bg-purple-700 transition-colors shadow-md hover:shadow-lg"
+              className="rounded-lg bg-primary-purple px-6 py-3 font-medium text-white shadow-md transition-colors hover:bg-purple-700 hover:shadow-lg"
             >
               View Projects
             </a>
-            <a
-              href="#experience"
-              className="px-6 py-3 bg-white text-primary-purple font-medium rounded-lg border-2 border-primary-purple hover:bg-pale-purple transition-colors"
+            <Link
+              to="/resume"
+              className="rounded-lg border-2 border-primary-purple bg-white px-6 py-3 font-medium text-primary-purple transition-colors hover:bg-pale-purple dark:border-light-purple dark:bg-transparent dark:text-light-purple dark:hover:bg-primary-purple/10"
             >
-              Experience
-            </a>
+              Resume
+            </Link>
           </motion.div>
+        </div>
+
+        <motion.div {...fade(0.2)} className="order-first flex justify-center md:order-none">
+          <div className="relative">
+            <div className="absolute inset-0 -z-10 translate-x-3 translate-y-3 rounded-2xl bg-pale-purple dark:bg-primary-purple/30" />
+            <SmartImage
+              src={siteConfig.headshot}
+              alt={`${siteConfig.name} headshot`}
+              className="h-44 w-44 rounded-2xl border border-gray-200 object-cover shadow-lg sm:h-56 sm:w-56 md:h-64 md:w-64 dark:border-ink-line"
+              fallback={
+                <div className="flex h-44 w-44 items-center justify-center rounded-2xl border border-dashed border-primary-purple/50 bg-pale-purple/40 text-4xl font-bold text-primary-purple sm:h-56 sm:w-56 md:h-64 md:w-64 dark:border-light-purple/40 dark:bg-ink-soft dark:text-light-purple">
+                  CS
+                </div>
+              }
+            />
+          </div>
         </motion.div>
       </div>
     </section>

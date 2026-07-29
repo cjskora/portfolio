@@ -1,3 +1,7 @@
+import { asset } from '../utils/asset'
+
+// Images live in /public/images/projects/. Any file that is missing is simply
+// skipped at render time, so you can add them one at a time.
 export const projectsData = [
   {
     title: "Dual Coincidence Radioactive Isotope Detector",
@@ -10,7 +14,11 @@ export const projectsData = [
       "Optimized coincidence timing windows for sub-microsecond precision",
       "Validated system performance through Lu-176 decay measurements"
     ],
-    image: null
+    cover: asset('images/projects/coincidence-detector.jpg'),
+    gallery: [
+      { src: asset('images/projects/coincidence-detector-setup.jpg'), caption: 'SiPM/HPGe detector setup' },
+      { src: asset('images/projects/coincidence-detector-digitizer.jpg'), caption: 'CAEN DT2751 digitizer configuration' }
+    ]
   },
   {
     title: "RAMPS Coincidence Analysis Pipeline",
@@ -24,7 +32,11 @@ export const projectsData = [
       "Generated publication-quality calibrated energy spectra and visualizations",
       "Optimized HDF5 dataset management for efficient large-scale data handling"
     ],
-    image: null
+    cover: asset('images/projects/ramps-pipeline.jpg'),
+    gallery: [
+      { src: asset('images/projects/ramps-spectrum.jpg'), caption: 'Calibrated energy spectrum' },
+      { src: asset('images/projects/ramps-waveform.jpg'), caption: 'Raw digitizer waveform' }
+    ]
   },
   {
     title: "SNO+ Optical Calibration & Analysis",
@@ -37,7 +49,11 @@ export const projectsData = [
       "Quantified scintillator transparency and contamination levels",
       "Supported detector commissioning and performance optimization"
     ],
-    image: null
+    cover: asset('images/projects/snoplus-optical.jpg'),
+    gallery: [
+      { src: asset('images/projects/snoplus-laserball.jpg'), caption: 'Laserball calibration source' },
+      { src: asset('images/projects/snoplus-uvvis.jpg'), caption: 'UV-Vis transparency measurement' }
+    ]
   }
 ]
 

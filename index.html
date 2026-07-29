@@ -2,13 +2,95 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>Christopher Skora | Nanotechnology Engineering Student</title>
     <meta
       name="description"
-      content="Christopher Skora - Nanotechnology Engineering Student Portfolio"
+      content="Portfolio of Christopher Skora, a University of Waterloo Nanotechnology Engineering student working on radiation detector systems, coincidence spectroscopy, and Python data-analysis pipelines at SNOLAB."
     />
-    <title>Christopher Skora | Portfolio</title>
+    <meta name="author" content="Christopher Skora" />
+    <meta
+      name="keywords"
+      content="Christopher Skora, Nanotechnology Engineering, University of Waterloo, SNOLAB, SiPM, HPGe, coincidence detector, RAMPS, SNO+, physics data analysis"
+    />
+    <link rel="canonical" href="https://cjskora.github.io/portfolio/" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#8B5CF6" />
+
+    <!-- Open Graph / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Christopher Skora" />
+    <meta property="og:title" content="Christopher Skora | Nanotechnology Engineering Student" />
+    <meta
+      property="og:description"
+      content="Radiation detector systems, coincidence spectroscopy, and Python analysis pipelines. Research projects and resume."
+    />
+    <meta property="og:url" content="https://cjskora.github.io/portfolio/" />
+    <meta property="og:image" content="https://cjskora.github.io/portfolio/images/og-image.jpg" />
+
+    <!-- Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Christopher Skora | Nanotechnology Engineering Student" />
+    <meta
+      name="twitter:description"
+      content="Radiation detector systems, coincidence spectroscopy, and Python analysis pipelines."
+    />
+    <meta name="twitter:image" content="https://cjskora.github.io/portfolio/images/og-image.jpg" />
+
+    <!-- Structured data so Google can build a knowledge panel entry -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Christopher Skora",
+        "jobTitle": "Nanotechnology Engineering Student",
+        "url": "https://cjskora.github.io/portfolio/",
+        "email": "mailto:cjskora@gmail.com",
+        "image": "https://cjskora.github.io/portfolio/images/headshot.jpg",
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "University of Waterloo"
+        },
+        "worksFor": {
+          "@type": "Organization",
+          "name": "SNOLAB"
+        },
+        "knowsAbout": [
+          "Radiation detection",
+          "Coincidence spectroscopy",
+          "Silicon photomultipliers",
+          "High-purity germanium detectors",
+          "Python data analysis"
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/cjskora/",
+          "https://github.com/cjskora"
+        ]
+      }
+    </script>
+
+    <script>
+      // Apply the saved theme before first paint to avoid a white flash.
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var dark =
+            stored === 'dark' ||
+            (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+
+      // Restore the deep link that 404.html encoded (GitHub Pages SPA fallback).
+      (function () {
+        var redirect = new URLSearchParams(window.location.search).get('p');
+        if (redirect) {
+          history.replaceState(null, '', redirect + window.location.hash);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

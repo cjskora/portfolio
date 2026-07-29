@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting…</title>
+    <script>
+      // GitHub Pages has no server-side routing, so a direct hit on
+      // /portfolio/resume lands here. Encode the path and hand it to index.html,
+      // which restores the real URL before React Router mounts.
+      (function () {
+        var base = '/portfolio/';
+        var path = window.location.pathname;
+        if (path.indexOf(base) !== 0) path = base;
+        window.location.replace(
+          base +
+            '?p=' +
+            encodeURIComponent(path + window.location.search.replace(/^\?/, '&')) +
+            window.location.hash
+        );
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting…</p>
+  </body>
+</html>

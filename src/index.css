@@ -9,7 +9,6 @@ body {
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #ffffff;
 }
 
 * {
@@ -18,4 +17,16 @@ body {
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Prevent a white flash before the theme class is applied */
+html.dark {
+  background-color: #0f1117;
+  color-scheme: dark;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
 }
