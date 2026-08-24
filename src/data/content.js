@@ -1,85 +1,216 @@
 import { asset } from '../utils/asset'
 
-// Images live in /public/images/projects/. Any file that is missing is simply
-// skipped at render time, so you can add them one at a time.
+/**
+ * All copy and image paths for the site live here.
+ *
+ * Images resolve to files inside /public/images/. Every slot renders a labelled
+ * placeholder until the file exists, so you can drop them in one at a time
+ * without ever shipping a broken image. See ASSETS.md for the full list.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* Hero stats                                                                 */
+/* -------------------------------------------------------------------------- */
+export const statsData = [
+  { value: '2', label: 'Research terms at SNOLAB' },
+  { value: '3', label: 'Detector & analysis projects' },
+  { value: '2 km', label: 'Underground at the RAMPS site' },
+  { value: 'Lu-176', label: 'Rare-decay search supported' },
+]
+
+/* -------------------------------------------------------------------------- */
+/* About                                                                      */
+/* -------------------------------------------------------------------------- */
+export const aboutData = {
+  heading: 'Building the instruments that make rare events measurable',
+  paragraphs: [
+    "I'm a Nanotechnology Engineering student at the University of Waterloo working at the intersection of hardware and data. Most of my time goes into radiation detector systems: getting sensors, digitizers, and trigger logic to agree with each other, then turning the resulting waveforms into calibrated physics.",
+    'At SNOLAB I commissioned a SiPM/HPGe coincidence detector through to its first science run and built the Python pipeline that produced its calibrated spectra. Before that I validated optical calibration data for the SNO+ neutrino experiment in CERN ROOT.',
+    'I like problems where a careful measurement is the whole game: understanding a noise floor, chasing down a timing offset, or proving that a peak is real.',
+  ],
+  image: asset('images/about.jpg'),
+  imageCaption: 'In the lab at SNOLAB',
+  focus: [
+    'Detector integration & characterisation',
+    'Coincidence timing and trigger logic',
+    'Energy calibration',
+    'Waveform analysis pipelines',
+  ],
+}
+
+/* -------------------------------------------------------------------------- */
+/* Skills                                                                     */
+/* -------------------------------------------------------------------------- */
+export const skillsData = [
+  {
+    heading: 'Programming & Analysis',
+    icon: 'code',
+    items: ['Python 3', 'Jupyter', 'NumPy', 'SciPy', 'Matplotlib', 'Pandas', 'H5py', 'CERN ROOT'],
+  },
+  {
+    heading: 'Instrumentation',
+    icon: 'chip',
+    items: ['CAEN DT2751', 'WaveDump2', 'CoMPASS', 'FPGA configuration', 'Trigger & ROI tuning'],
+  },
+  {
+    heading: 'Detector Systems',
+    icon: 'wave',
+    items: ['SiPM', 'HPGe', 'Coincidence detection', 'Energy calibration', 'Spectroscopy'],
+  },
+  {
+    heading: 'Laboratory Techniques',
+    icon: 'beaker',
+    items: ['UV-Vis spectroscopy', 'Waveform analysis', 'Data acquisition', 'Source handling'],
+  },
+]
+
+/* -------------------------------------------------------------------------- */
+/* Education                                                                  */
+/* -------------------------------------------------------------------------- */
+export const educationData = [
+  {
+    school: 'University of Waterloo',
+    program: 'BASc, Nanotechnology Engineering',
+    location: 'Waterloo, ON',
+    duration: 'Expected graduation',
+    logo: asset('images/logos/uwaterloo.png'),
+    details: [
+      'Co-op program combining nanoscale device fabrication, materials characterisation, and instrumentation.',
+      'Coursework in quantum mechanics, semiconductor physics, electronic circuits, and numerical methods.',
+    ],
+  },
+]
+
+/* -------------------------------------------------------------------------- */
+/* Projects                                                                   */
+/* -------------------------------------------------------------------------- */
 export const projectsData = [
   {
-    title: "Dual Coincidence Radioactive Isotope Detector",
-    shortDescription: "Next-generation coincidence detector using SiPM and HPGe for precision nuclear measurements",
-    fullDescription: "Developed a dual-detector coincidence system combining a Silicon photomultiplier (SiPM) with a High-purity germanium (HPGe) detector for advanced radioisotope detection. The system utilizes state-of-the-art waveform digitization software and FPGA-based signal processing for precise coincidence timing and event correlation.",
-    status: "Completed",
-    techStack: ["SiPM", "HPGe Detector", "CAEN DT2751", "WaveDump2", "FPGA", "Coincidence Logic"],
+    id: 'coincidence-detector',
+    title: 'Dual Coincidence Radioactive Isotope Detector',
+    year: '2026',
+    shortDescription:
+      'Next-generation coincidence detector using SiPM and HPGe for precision nuclear measurements.',
+    fullDescription:
+      'Developed a dual-detector coincidence system combining a Silicon photomultiplier (SiPM) with a High-purity germanium (HPGe) detector for advanced radioisotope detection. The system utilizes state-of-the-art waveform digitization software and FPGA-based signal processing for precise coincidence timing and event correlation.',
+    status: 'Completed',
+    techStack: ['SiPM', 'HPGe Detector', 'CAEN DT2751', 'WaveDump2', 'FPGA', 'Coincidence Logic'],
     achievements: [
-      "Achieved operational readiness for first science run at SNOLAB",
-      "Optimized coincidence timing windows for sub-microsecond precision",
-      "Validated system performance through Lu-176 decay measurements"
+      'Achieved operational readiness for first science run at SNOLAB',
+      'Optimized coincidence timing windows for sub-microsecond precision',
+      'Validated system performance through Lu-176 decay measurements',
     ],
     cover: asset('images/projects/coincidence-detector.jpg'),
     gallery: [
-      { src: asset('images/projects/coincidence-detector-setup.jpg'), caption: 'SiPM/HPGe detector setup' },
-      { src: asset('images/projects/coincidence-detector-digitizer.jpg'), caption: 'CAEN DT2751 digitizer configuration' }
-    ]
+      {
+        src: asset('images/projects/coincidence-detector-setup.jpg'),
+        caption: 'SiPM / HPGe detector setup',
+      },
+      {
+        src: asset('images/projects/coincidence-detector-digitizer.jpg'),
+        caption: 'CAEN DT2751 digitizer configuration',
+      },
+      {
+        src: asset('images/projects/coincidence-detector-shielding.jpg'),
+        caption: 'Lead shielding and source geometry',
+      },
+    ],
   },
   {
-    title: "RAMPS Coincidence Analysis Pipeline",
-    shortDescription: "Python analysis framework for dual-detector beta-gamma coincidence measurements",
-    fullDescription: "Built a comprehensive Python/Jupyter offline analysis pipeline for the RAMPS pilot experiment at SNOLAB. The framework processes multi-channel digitizer waveforms, performs baseline correction and peak extraction, executes independent energy calibration on both detector channels using known gamma lines, and applies coincidence cuts to isolate correlated decay signatures from background noise.",
-    status: "Completed",
-    techStack: ["Python 3", "Jupyter", "NumPy", "SciPy", "Matplotlib", "H5py", "CAEN Digitizers"],
+    id: 'ramps-pipeline',
+    title: 'RAMPS Coincidence Analysis Pipeline',
+    year: '2026',
+    shortDescription:
+      'Python analysis framework for dual-detector beta-gamma coincidence measurements.',
+    fullDescription:
+      'Built a comprehensive Python/Jupyter offline analysis pipeline for the RAMPS pilot experiment at SNOLAB. The framework processes multi-channel digitizer waveforms, performs baseline correction and peak extraction, executes independent energy calibration on both detector channels using known gamma lines, and applies coincidence cuts to isolate correlated decay signatures from background noise.',
+    status: 'Completed',
+    techStack: ['Python 3', 'Jupyter', 'NumPy', 'SciPy', 'Matplotlib', 'H5py', 'CAEN Digitizers'],
     achievements: [
-      "Automated full waveform processing pipeline for multi-channel data",
-      "Implemented dual-channel energy calibration against reference gamma sources",
-      "Generated publication-quality calibrated energy spectra and visualizations",
-      "Optimized HDF5 dataset management for efficient large-scale data handling"
+      'Automated full waveform processing pipeline for multi-channel data',
+      'Implemented dual-channel energy calibration against reference gamma sources',
+      'Generated publication-quality calibrated energy spectra and visualizations',
+      'Optimized HDF5 dataset management for efficient large-scale data handling',
     ],
     cover: asset('images/projects/ramps-pipeline.jpg'),
     gallery: [
       { src: asset('images/projects/ramps-spectrum.jpg'), caption: 'Calibrated energy spectrum' },
-      { src: asset('images/projects/ramps-waveform.jpg'), caption: 'Raw digitizer waveform' }
-    ]
+      { src: asset('images/projects/ramps-waveform.jpg'), caption: 'Raw digitizer waveform' },
+      {
+        src: asset('images/projects/ramps-calibration.jpg'),
+        caption: 'Energy calibration fit across gamma lines',
+      },
+    ],
   },
   {
-    title: "SNO+ Optical Calibration & Analysis",
-    shortDescription: "Detector validation and optical characterization for neutrino physics experiment",
-    fullDescription: "Validated the optical performance of the SNO+ neutrino detector through systematic calibration data analysis using CERN ROOT. Deployed and operated the Laserball calibration source to characterize detector response, and conducted UV-Vis spectroscopy measurements to quantify liquid scintillator optical properties and contamination levels.",
-    status: "Completed",
-    techStack: ["CERN ROOT", "UV-Vis Spectroscopy", "Laserball Calibration", "Data Analysis"],
+    id: 'snoplus-optical',
+    title: 'SNO+ Optical Calibration & Analysis',
+    year: '2025',
+    shortDescription:
+      'Detector validation and optical characterization for a neutrino physics experiment.',
+    fullDescription:
+      'Validated the optical performance of the SNO+ neutrino detector through systematic calibration data analysis using CERN ROOT. Deployed and operated the Laserball calibration source to characterize detector response, and conducted UV-Vis spectroscopy measurements to quantify liquid scintillator optical properties and contamination levels.',
+    status: 'Completed',
+    techStack: ['CERN ROOT', 'UV-Vis Spectroscopy', 'Laserball Calibration', 'Data Analysis'],
     achievements: [
-      "Validated optical calibration system readiness for physics operations",
-      "Quantified scintillator transparency and contamination levels",
-      "Supported detector commissioning and performance optimization"
+      'Validated optical calibration system readiness for physics operations',
+      'Quantified scintillator transparency and contamination levels',
+      'Supported detector commissioning and performance optimization',
     ],
     cover: asset('images/projects/snoplus-optical.jpg'),
     gallery: [
       { src: asset('images/projects/snoplus-laserball.jpg'), caption: 'Laserball calibration source' },
-      { src: asset('images/projects/snoplus-uvvis.jpg'), caption: 'UV-Vis transparency measurement' }
-    ]
-  }
+      { src: asset('images/projects/snoplus-uvvis.jpg'), caption: 'UV-Vis transparency measurement' },
+      { src: asset('images/projects/snoplus-detector.jpg'), caption: 'SNO+ detector cavity' },
+    ],
+  },
 ]
 
+/* -------------------------------------------------------------------------- */
+/* Experience                                                                 */
+/* -------------------------------------------------------------------------- */
 export const experienceData = [
   {
-    role: "RAMPS Student Research Assistant",
-    company: "SNOLAB",
-    location: "Lively, ON",
-    duration: "January 2026 – April 2026",
+    role: 'RAMPS Student Research Assistant',
+    company: 'SNOLAB',
+    location: 'Lively, ON',
+    duration: 'January 2026 – April 2026',
+    logo: asset('images/logos/snolab.png'),
+    tags: ['Detector commissioning', 'FPGA digitizers', 'Python analysis'],
     achievements: [
       "Commissioned a custom SiPM/HPGe coincidence detector system by leading detector integration, characterization, and calibration, delivering full operational readiness validated through the experiment's first science run in support of a search for the fifth-forbidden electron-capture decay of Lu-176",
-      "Configured and optimized a CAEN DT2751 FPGA waveform digitizer by tuning detector triggering, coincidence timing windows, and region-of-interest parameters, enabling precise coincidence spectroscopy",
-      "Built a Python-based analysis pipeline that produced calibrated energy spectra and publication-quality visualizations by implementing waveform baseline correction, signal extraction, coincidence event selection, and HDF5-based dataset management in Jupyter Notebook",
-      "Improved pre-release DAQ software reliability for WaveDump2 and CoMPASS by identifying waveform acquisition and analysis bugs during early deployment, delivering feedback that shaped the integration workflow for the next-generation digitizer",
-      "Achieved calibrated detector response across multiple gamma-ray energy lines by performing systematic energy calibration and characterization, optimizing measurement sensitivity for precision radioisotope studies"
-    ]
+      'Configured and optimized a CAEN DT2751 FPGA waveform digitizer by tuning detector triggering, coincidence timing windows, and region-of-interest parameters, enabling precise coincidence spectroscopy',
+      'Built a Python-based analysis pipeline that produced calibrated energy spectra and publication-quality visualizations by implementing waveform baseline correction, signal extraction, coincidence event selection, and HDF5-based dataset management in Jupyter Notebook',
+      'Improved pre-release DAQ software reliability for WaveDump2 and CoMPASS by identifying waveform acquisition and analysis bugs during early deployment, delivering feedback that shaped the integration workflow for the next-generation digitizer',
+      'Achieved calibrated detector response across multiple gamma-ray energy lines by performing systematic energy calibration and characterization, optimizing measurement sensitivity for precision radioisotope studies',
+    ],
   },
   {
-    role: "SNO+ Research Assistant",
-    company: "SNOLAB",
-    location: "Lively, ON",
-    duration: "September 2025 – December 2025",
+    role: 'SNO+ Research Assistant',
+    company: 'SNOLAB',
+    location: 'Lively, ON',
+    duration: 'September 2025 – December 2025',
+    logo: asset('images/logos/snolab.png'),
+    tags: ['CERN ROOT', 'Optical calibration', 'UV-Vis spectroscopy'],
     achievements: [
-      "Validated optical performance of the SNO+ detector by analyzing calibration and response data in CERN ROOT, supporting detector validation ahead of physics operations",
-      "Verified optical calibration system readiness by deploying and operating the Laserball calibration source, directly contributing to detector performance characterization",
-      "Quantified liquid scintillator optical transparency and contamination levels by conducting UV-Vis spectroscopy, providing analytical data that informed purification process decisions before detector refill"
-    ]
-  }
+      'Validated optical performance of the SNO+ detector by analyzing calibration and response data in CERN ROOT, supporting detector validation ahead of physics operations',
+      'Verified optical calibration system readiness by deploying and operating the Laserball calibration source, directly contributing to detector performance characterization',
+      'Quantified liquid scintillator optical transparency and contamination levels by conducting UV-Vis spectroscopy, providing analytical data that informed purification process decisions before detector refill',
+    ],
+  },
+]
+
+/* -------------------------------------------------------------------------- */
+/* Lab gallery strip                                                          */
+/*                                                                            */
+/* A free-form set of photos and plots. Add or remove entries freely - the     */
+/* grid reflows and any missing file shows a placeholder tile.                 */
+/* -------------------------------------------------------------------------- */
+export const galleryData = [
+  { src: asset('images/gallery/lab-01.jpg'), caption: 'Detector assembly bench' },
+  { src: asset('images/gallery/lab-02.jpg'), caption: 'Digitizer and DAQ rack' },
+  { src: asset('images/gallery/lab-03.jpg'), caption: 'Coincidence spectrum on screen' },
+  { src: asset('images/gallery/lab-04.jpg'), caption: 'Underground at SNOLAB' },
+  { src: asset('images/gallery/lab-05.jpg'), caption: 'Source calibration run' },
+  { src: asset('images/gallery/lab-06.jpg'), caption: 'Cleanroom entry' },
 ]

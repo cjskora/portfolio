@@ -1,156 +1,235 @@
-import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import ExperienceCard from '../components/ExperienceCard'
-import { experienceData } from '../data/content'
+import Icon from '../components/Icon'
+import Reveal from '../components/Reveal'
+import SmartImage from '../components/SmartImage'
+import SkillsGrid from '../components/SkillsGrid'
+import { educationData, experienceData } from '../data/content'
 import { siteConfig } from '../data/site'
 
-const skills = [
-  {
-    heading: 'Programming & Analysis',
-    body: 'Python, Jupyter, NumPy, SciPy, Matplotlib, Pandas, H5py, CERN ROOT',
-  },
-  {
-    heading: 'Instrumentation',
-    body: 'CAEN Digitizers (DT2751), WaveDump2, CoMPASS, FPGA Configuration',
-  },
-  {
-    heading: 'Detector Systems',
-    body: 'SiPM, HPGe Detectors, Coincidence Detection, Energy Calibration',
-  },
-  {
-    heading: 'Laboratory Techniques',
-    body: 'UV-Vis Spectroscopy, Waveform Analysis, Data Acquisition Systems',
-  },
-]
+function SectionTitle({ icon, children }) {
+  return (
+    <div className="mb-6 flex items-center gap-3">
+      <span className="grid h-9 w-9 place-items-center rounded-xl bg-accent/12 text-accent">
+        <Icon name={icon} className="h-4 w-4" />
+      </span>
+      <h2 className="text-xl font-bold text-fg sm:text-2xl">{children}</h2>
+      <span className="rule ml-2 hidden flex-1 sm:block" />
+    </div>
+  )
+}
 
-const sectionHeading =
-  'mb-6 border-b-2 border-primary-purple pb-2 text-2xl font-bold text-gray-900 dark:border-light-purple dark:text-white'
+/**
+ * The PDF is dropped in manually, so probe for it before rendering an <object>.
+ * Without this, a missing file on GitHub Pages would render the SPA 404 page
+ * inside the preview frame.
+ */
+function useResumeAvailable(url) {
+  const [available, setAvailable] = useState(null) // null = still checking
+
+  useEffect(() => {
+    let cancelled = false
+
+    fetch(url, { method: 'HEAD' })
+      .then((response) => {
+        const type = response.headers.get('content-type') || ''
+        if (!cancelled) setAvailable(response.ok && !type.includes('text/html'))
+      })
+      .catch(() => {
+        if (!cancelled) setAvailable(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [url])
+
+  return available
+}
 
 function Resume() {
+  const pdfAvailable = useResumeAvailable(siteConfig.resumePdf)
+
   return (
-    <div className="min-h-screen px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-4xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="mb-10 text-center">
-            <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl dark:text-white">Resume</h1>
-            <p className="mb-6 text-gray-600 dark:text-gray-300">
-              {siteConfig.name} | {siteConfig.title}
+    <div className="relative">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-80">
+        <div className="bg-grid mask-fade absolute inset-0 opacity-60" />
+        <div className="absolute -top-24 left-1/2 h-64 w-[560px] -translate-x-1/2 rounded-full bg-accent/20 blur-[110px]" />
+      </div>
+
+      <div className="shell py-14 sm:py-20">
+        <div className="mx-auto max-w-4xl">
+          {/* Header */}
+          <Reveal className="text-center">
+            <p className="eyebrow justify-center">
+              <span aria-hidden="true" className="h-px w-6 bg-accent/60" />
+              Curriculum vitae
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
-              <a href={`mailto:${siteConfig.email}`} className="hover:text-primary-purple dark:hover:text-light-purple">
+            <h1 className="mt-3 text-4xl font-extrabold text-fg sm:text-5xl">Resume</h1>
+            <p className="mt-3 text-base text-muted">
+              {siteConfig.name} — {siteConfig.title}
+            </p>
+
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-muted">
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
+              >
+                <Icon name="mail" className="h-4 w-4" />
                 {siteConfig.email}
               </a>
-              <span aria-hidden="true">•</span>
               <a
                 href={siteConfig.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-primary-purple dark:hover:text-light-purple"
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
               >
+                <Icon name="linkedin" className="h-4 w-4" />
                 LinkedIn
               </a>
-              <span aria-hidden="true">•</span>
               <a
                 href={siteConfig.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-primary-purple dark:hover:text-light-purple"
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
               >
+                <Icon name="github" className="h-4 w-4" />
                 GitHub
               </a>
             </div>
-          </div>
 
-          <div className="no-print mb-12 flex flex-wrap justify-center gap-3">
-            <a
-              href={siteConfig.resumePdf}
-              download="Christopher-Skora-Resume.pdf"
-              className="inline-flex items-center gap-2 rounded-lg bg-primary-purple px-6 py-3 font-medium text-white shadow-md transition-colors hover:bg-purple-700 hover:shadow-lg"
-            >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                />
-              </svg>
-              Download PDF
-            </a>
-            <a
-              href={siteConfig.resumePdf}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border-2 border-primary-purple px-6 py-3 font-medium text-primary-purple transition-colors hover:bg-pale-purple dark:border-light-purple dark:text-light-purple dark:hover:bg-primary-purple/10"
-            >
-              Open in new tab
-            </a>
-          </div>
-
-          <div className="no-print mb-12">
-            <h2 className={sectionHeading}>Resume Preview</h2>
-            <div className="overflow-hidden rounded-lg border border-gray-200 bg-gray-100 dark:border-ink-line dark:bg-ink-soft">
-              <object
-                data={siteConfig.resumePdf}
-                type="application/pdf"
-                className="h-[600px] w-full sm:h-[840px]"
-                aria-label="Resume PDF preview"
+            <div className="no-print mt-8 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href={siteConfig.resumePdf}
+                download={siteConfig.resumeDownloadName}
+                className="btn-primary"
               >
-                <div className="p-8 text-center text-sm text-gray-600 dark:text-gray-300">
-                  Your browser can&apos;t display the PDF inline.{' '}
-                  <a
-                    href={siteConfig.resumePdf}
-                    className="font-medium text-primary-purple underline dark:text-light-purple"
-                  >
-                    Download the resume instead.
-                  </a>
-                </div>
-              </object>
+                <Icon name="download" className="h-4 w-4" />
+                Download PDF
+              </a>
+              <a
+                href={siteConfig.resumePdf}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline"
+              >
+                <Icon name="external" className="h-4 w-4" />
+                Open in new tab
+              </a>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="mb-12">
-            <h2 className={sectionHeading}>Education</h2>
-            <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-ink-line dark:bg-ink-soft">
-              <div className="mb-2 flex flex-col justify-between sm:flex-row sm:items-start">
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">University of Waterloo</h3>
-                  <p className="font-medium text-primary-purple dark:text-light-purple">
-                    Nanotechnology Engineering
+          {/* PDF preview */}
+          <Reveal delay={0.05} className="no-print mt-14">
+            <SectionTitle icon="download">Document preview</SectionTitle>
+            <div className="card overflow-hidden p-2">
+              {pdfAvailable === false ? (
+                <div className="image-slot h-64 w-full rounded-2xl">
+                  <Icon name="download" className="h-6 w-6" />
+                  <p className="max-w-sm px-6 text-xs leading-relaxed">
+                    Add <span className="font-mono text-accent">public/resume.pdf</span> to show the
+                    inline preview here. The buttons above already point at that file.
                   </p>
                 </div>
-                <span className="text-sm text-gray-500 dark:text-gray-400">Expected Graduation</span>
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Waterloo, ON</p>
+              ) : pdfAvailable === null ? (
+                <div className="h-64 w-full animate-pulse rounded-2xl bg-surface2" />
+              ) : (
+                <object
+                  data={siteConfig.resumePdf}
+                  type="application/pdf"
+                  className="h-[560px] w-full rounded-2xl bg-surface2 sm:h-[820px]"
+                  aria-label="Resume PDF preview"
+                >
+                  <div className="image-slot h-64 w-full rounded-2xl">
+                    <Icon name="download" className="h-6 w-6" />
+                    <p className="max-w-sm px-6 text-xs leading-relaxed">
+                      This browser can&apos;t display the PDF inline.{' '}
+                      <a
+                        href={siteConfig.resumePdf}
+                        className="font-semibold text-accent underline"
+                        download={siteConfig.resumeDownloadName}
+                      >
+                        Download it instead.
+                      </a>
+                    </p>
+                  </div>
+                </object>
+              )}
             </div>
-          </div>
+          </Reveal>
 
-          <div className="mb-12">
-            <h2 className={sectionHeading}>Research Experience</h2>
-            <div className="space-y-6">
-              {experienceData.map((experience, index) => (
-                <ExperienceCard key={experience.role} experience={experience} index={index} />
+          {/* Education */}
+          <Reveal delay={0.05} className="mt-14">
+            <SectionTitle icon="graduation">Education</SectionTitle>
+            <div className="space-y-4">
+              {educationData.map((entry) => (
+                <div key={entry.school} className="card p-5 sm:p-6">
+                  <div className="flex flex-wrap items-start justify-between gap-4">
+                    <div className="flex items-start gap-3">
+                      <SmartImage
+                        src={entry.logo}
+                        alt={`${entry.school} logo`}
+                        hideWhenMissing
+                        className="mt-0.5 h-10 w-10 shrink-0 rounded-xl border border-line bg-surface2 object-contain p-1"
+                      />
+                      <div>
+                        <h3 className="text-lg font-bold text-fg">{entry.school}</h3>
+                        <p className="mt-0.5 text-sm font-semibold text-accent">{entry.program}</p>
+                        <p className="mt-1 inline-flex items-center gap-1.5 text-xs text-muted">
+                          <Icon name="mapPin" className="h-3.5 w-3.5" />
+                          {entry.location}
+                        </p>
+                      </div>
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface2 px-2.5 py-1 font-mono text-xs text-muted">
+                      <Icon name="calendar" className="h-3.5 w-3.5" />
+                      {entry.duration}
+                    </span>
+                  </div>
+
+                  {entry.details?.length > 0 && (
+                    <ul className="mt-5 space-y-2.5">
+                      {entry.details.map((detail) => (
+                        <li key={detail} className="flex gap-3 text-sm leading-relaxed text-muted">
+                          <span
+                            aria-hidden="true"
+                            className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent/70"
+                          />
+                          <span>{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               ))}
             </div>
+          </Reveal>
+
+          {/* Experience */}
+          <div className="mt-14">
+            <Reveal>
+              <SectionTitle icon="chip">Research experience</SectionTitle>
+            </Reveal>
+            <ol className="space-y-4">
+              {experienceData.map((experience, index) => (
+                <ExperienceCard
+                  key={experience.role}
+                  experience={experience}
+                  index={index}
+                  timeline={false}
+                />
+              ))}
+            </ol>
           </div>
 
-          <div className="mb-4">
-            <h2 className={sectionHeading}>Technical Skills</h2>
-            <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-ink-line dark:bg-ink-soft">
-              <div className="grid gap-4 md:grid-cols-2">
-                {skills.map((skill) => (
-                  <div key={skill.heading}>
-                    <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">{skill.heading}</h3>
-                    <p className="text-sm text-gray-700 dark:text-gray-300">{skill.body}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {/* Skills */}
+          <div className="mt-14">
+            <Reveal>
+              <SectionTitle icon="code">Technical skills</SectionTitle>
+            </Reveal>
+            <SkillsGrid />
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   )

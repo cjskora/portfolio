@@ -1,118 +1,135 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useId, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import Gallery from './Gallery'
+import Icon from './Icon'
 import SmartImage from './SmartImage'
 
 function StatusBadge({ status }) {
   const done = status === 'Completed'
+
   return (
     <span
-      className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold ${
+      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold backdrop-blur ${
         done
-          ? 'bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300'
-          : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300'
+          ? 'bg-emerald-500/15 text-emerald-600 ring-1 ring-inset ring-emerald-500/30 dark:text-emerald-300'
+          : 'bg-amber-500/15 text-amber-700 ring-1 ring-inset ring-amber-500/30 dark:text-amber-300'
       }`}
     >
+      <span className={`h-1.5 w-1.5 rounded-full ${done ? 'bg-emerald-500' : 'bg-amber-500'}`} />
       {status}
     </span>
   )
 }
 
-function ProjectCard({ project }) {
-  const [isExpanded, setIsExpanded] = useState(false)
+function ProjectCard({ project, index = 0, featured = false, className = '' }) {
+  const [expanded, setExpanded] = useState(false)
+  const panelId = useId()
   const gallery = project.gallery ?? []
 
   return (
-    <motion.div
+    <motion.article
       layout
-      className="overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg dark:border-ink-line dark:bg-ink-soft"
+      initial={{ opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      className={`card group overflow-hidden transition duration-300 hover:border-accent/40 hover:shadow-lift ${className}`}
     >
-      <button
-        type="button"
-        onClick={() => setIsExpanded((v) => !v)}
-        aria-expanded={isExpanded}
-        className="w-full text-left"
+      {/* Cover */}
+      <div
+        className={`relative overflow-hidden border-b border-line bg-surface2 ${
+          featured ? 'aspect-[16/9] sm:aspect-[21/9]' : 'aspect-[16/10]'
+        }`}
       >
         <SmartImage
           src={project.cover}
-          alt={project.title}
-          className="h-48 w-full border-b border-gray-200 object-cover sm:h-56 dark:border-ink-line"
+          alt={`${project.title} cover image`}
+          label="Add a cover image"
+          className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
         />
 
-        <div className="p-6">
-          <div className="mb-3 flex items-start justify-between gap-4">
-            <h3 className="flex-1 text-xl font-bold text-gray-900 dark:text-white">{project.title}</h3>
-            <StatusBadge status={project.status} />
-          </div>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface/70 via-transparent to-transparent"
+        />
 
-          <p className="mb-4 text-sm text-gray-600 dark:text-gray-300">{project.shortDescription}</p>
-
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex flex-wrap gap-2">
-              {project.techStack.slice(0, 3).map((tech) => (
-                <span
-                  key={tech}
-                  className="rounded-md bg-pale-purple px-2 py-1 text-xs font-medium text-primary-purple dark:bg-primary-purple/20 dark:text-light-purple"
-                >
-                  {tech}
-                </span>
-              ))}
-              {project.techStack.length > 3 && (
-                <span className="px-2 py-1 text-xs text-gray-500 dark:text-gray-400">
-                  +{project.techStack.length - 3} more
-                </span>
-              )}
-            </div>
-
-            <motion.span
-              animate={{ rotate: isExpanded ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-              className="text-primary-purple dark:text-light-purple"
-              aria-hidden="true"
-            >
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </motion.span>
-          </div>
+        <div className="absolute left-4 top-4 flex items-center gap-2">
+          <StatusBadge status={project.status} />
+          {project.year && (
+            <span className="rounded-full bg-black/30 px-2.5 py-1 font-mono text-[11px] text-white backdrop-blur">
+              {project.year}
+            </span>
+          )}
         </div>
-      </button>
+      </div>
 
+      {/* Body */}
+      <div className="p-5 sm:p-6">
+        <h3 className="text-lg font-bold leading-snug text-fg sm:text-xl">{project.title}</h3>
+        <p className="mt-2 text-sm leading-relaxed text-muted">{project.shortDescription}</p>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          {project.techStack.slice(0, 4).map((tech) => (
+            <span key={tech} className="chip-accent">
+              {tech}
+            </span>
+          ))}
+          {project.techStack.length > 4 && (
+            <span className="chip">+{project.techStack.length - 4}</span>
+          )}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setExpanded((value) => !value)}
+          aria-expanded={expanded}
+          aria-controls={panelId}
+          className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-accent transition hover:gap-3"
+        >
+          {expanded ? 'Hide details' : 'Read more'}
+          <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.3 }}>
+            <Icon name="chevronDown" className="h-4 w-4" />
+          </motion.span>
+        </button>
+      </div>
+
+      {/* Details */}
       <AnimatePresence initial={false}>
-        {isExpanded && (
+        {expanded && (
           <motion.div
+            id={panelId}
+            key="panel"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden border-t border-gray-200 bg-gray-50 dark:border-ink-line dark:bg-ink"
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden border-t border-line bg-surface2/60"
           >
-            <div className="space-y-5 p-6">
+            <div className="space-y-6 p-5 sm:p-6">
               <div>
-                <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">Description</h4>
-                <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                  {project.fullDescription}
-                </p>
+                <h4 className="eyebrow">Overview</h4>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{project.fullDescription}</p>
               </div>
 
               {project.achievements?.length > 0 && (
                 <div>
-                  <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">Key Achievements</h4>
-                  <ul className="list-inside list-disc space-y-1 text-sm text-gray-700 dark:text-gray-300">
+                  <h4 className="eyebrow">Highlights</h4>
+                  <ul className="mt-3 space-y-2">
                     {project.achievements.map((achievement) => (
-                      <li key={achievement}>{achievement}</li>
+                      <li key={achievement} className="flex gap-3 text-sm text-muted">
+                        <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                        <span>{achievement}</span>
+                      </li>
                     ))}
                   </ul>
                 </div>
               )}
 
               <div>
-                <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">Technologies Used</h4>
-                <div className="flex flex-wrap gap-2">
+                <h4 className="eyebrow">Stack</h4>
+                <div className="mt-3 flex flex-wrap gap-2">
                   {project.techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-md border border-primary-purple bg-white px-3 py-1 text-xs font-medium text-primary-purple dark:border-light-purple/50 dark:bg-ink-soft dark:text-light-purple"
-                    >
+                    <span key={tech} className="chip">
                       {tech}
                     </span>
                   ))}
@@ -121,22 +138,9 @@ function ProjectCard({ project }) {
 
               {gallery.length > 0 && (
                 <div>
-                  <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">Gallery</h4>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    {gallery.map((item) => (
-                      <figure key={item.src} className="overflow-hidden rounded-lg">
-                        <SmartImage
-                          src={item.src}
-                          alt={item.caption || project.title}
-                          className="h-48 w-full rounded-lg border border-gray-200 object-cover dark:border-ink-line"
-                        />
-                        {item.caption && (
-                          <figcaption className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                            {item.caption}
-                          </figcaption>
-                        )}
-                      </figure>
-                    ))}
+                  <h4 className="eyebrow">Gallery</h4>
+                  <div className="mt-3">
+                    <Gallery items={gallery} columns="sm:grid-cols-3" />
                   </div>
                 </div>
               )}
@@ -144,7 +148,7 @@ function ProjectCard({ project }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </motion.article>
   )
 }
 

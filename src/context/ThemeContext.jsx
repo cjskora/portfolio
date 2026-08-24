@@ -1,31 +1,43 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
-const ThemeContext = createContext({ theme: 'light', toggleTheme: () => {} })
+const ThemeContext = createContext({ theme: 'dark', toggleTheme: () => {} })
 
+const STORAGE_KEY = 'theme'
+
+/**
+ * Dark is the site's default look. We only fall back to light when the visitor
+ * has explicitly picked it before, which keeps this in sync with the pre-paint
+ * script in index.html.
+ */
 function getInitialTheme() {
-  if (typeof window === 'undefined') return 'light'
+  if (typeof window === 'undefined') return 'dark'
 
-  const stored = window.localStorage.getItem('theme')
-  if (stored === 'light' || stored === 'dark') return stored
-
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) === 'light' ? 'light' : 'dark'
+  } catch {
+    return 'dark'
+  }
 }
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(getInitialTheme)
 
   useEffect(() => {
-    const root = document.documentElement
-    root.classList.toggle('dark', theme === 'dark')
-    window.localStorage.setItem('theme', theme)
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+    try {
+      window.localStorage.setItem(STORAGE_KEY, theme)
+    } catch {
+      /* private browsing / storage disabled - the class is still applied */
+    }
   }, [theme])
 
-  const toggleTheme = () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+  const toggleTheme = useCallback(
+    () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark')),
+    [],
+  )
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
   )
 }
 

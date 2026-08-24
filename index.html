@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,27 +17,56 @@
     />
     <link rel="canonical" href="https://cjskora.github.io/portfolio/" />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#8B5CF6" />
+    <meta
+      name="theme-color"
+      content="#090D14"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta
+      name="theme-color"
+      content="#F6F8FB"
+      media="(prefers-color-scheme: light)"
+    />
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Open Graph / LinkedIn -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Christopher Skora" />
-    <meta property="og:title" content="Christopher Skora | Nanotechnology Engineering Student" />
+    <meta
+      property="og:title"
+      content="Christopher Skora | Nanotechnology Engineering Student"
+    />
     <meta
       property="og:description"
       content="Radiation detector systems, coincidence spectroscopy, and Python analysis pipelines. Research projects and resume."
     />
     <meta property="og:url" content="https://cjskora.github.io/portfolio/" />
-    <meta property="og:image" content="https://cjskora.github.io/portfolio/images/og-image.jpg" />
+    <meta
+      property="og:image"
+      content="https://cjskora.github.io/portfolio/images/og-image.jpg"
+    />
 
     <!-- Twitter/X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Christopher Skora | Nanotechnology Engineering Student" />
+    <meta
+      name="twitter:title"
+      content="Christopher Skora | Nanotechnology Engineering Student"
+    />
     <meta
       name="twitter:description"
       content="Radiation detector systems, coincidence spectroscopy, and Python analysis pipelines."
     />
-    <meta name="twitter:image" content="https://cjskora.github.io/portfolio/images/og-image.jpg" />
+    <meta
+      name="twitter:image"
+      content="https://cjskora.github.io/portfolio/images/og-image.jpg"
+    />
 
     <!-- Structured data so Google can build a knowledge panel entry -->
     <script type="application/ld+json">
@@ -72,22 +101,21 @@
     </script>
 
     <script>
-      // Apply the saved theme before first paint to avoid a white flash.
+      // Dark is the default. The class is already on <html> so there is no
+      // flash; we only strip it when the visitor has explicitly chosen light.
       (function () {
         try {
-          var stored = localStorage.getItem('theme');
-          var dark =
-            stored === 'dark' ||
-            (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
-          if (dark) document.documentElement.classList.add('dark');
+          if (localStorage.getItem("theme") === "light") {
+            document.documentElement.classList.remove("dark");
+          }
         } catch (e) {}
       })();
 
       // Restore the deep link that 404.html encoded (GitHub Pages SPA fallback).
       (function () {
-        var redirect = new URLSearchParams(window.location.search).get('p');
+        var redirect = new URLSearchParams(window.location.search).get("p");
         if (redirect) {
-          history.replaceState(null, '', redirect + window.location.hash);
+          history.replaceState(null, "", redirect + window.location.hash);
         }
       })();
     </script>

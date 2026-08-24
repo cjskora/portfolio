@@ -2,31 +2,238 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ------------------------------------------------------------------------- */
+/* Design tokens                                                             */
+/*                                                                           */
+/* Values are raw "R G B" triplets so Tailwind's opacity modifiers work.      */
+/* Light theme is the fallback; `html.dark` overrides it. Dark is the default */
+/* the app boots into (see the inline script in index.html).                  */
+/* ------------------------------------------------------------------------- */
+:root {
+  --c-base: 246 248 251; /* #F6F8FB page background */
+  --c-surface: 255 255 255; /* #FFFFFF cards            */
+  --c-surface-2: 241 245 249; /* #F1F5F9 subtle fills     */
+  --c-line: 224 231 240; /* #E0E7F0 borders          */
+  --c-fg: 14 22 40; /* #0E1628 body text        */
+  --c-muted: 84 100 124; /* #54647C secondary text   */
+  --c-accent: 2 132 199; /* #0284C7 sky-600          */
+  --c-accent-2: 109 40 217; /* #6D28D9 violet-700       */
+
+  color-scheme: light;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-/* Prevent a white flash before the theme class is applied */
 html.dark {
-  background-color: #0f1117;
+  --c-base: 9 13 20; /* #090D14 */
+  --c-surface: 16 22 32; /* #101620 */
+  --c-surface-2: 22 30 43; /* #161E2B */
+  --c-line: 33 44 60; /* #212C3C */
+  --c-fg: 229 237 247; /* #E5EDF7 */
+  --c-muted: 145 162 184; /* #91A2B8 */
+  --c-accent: 56 189 248; /* #38BDF8 sky-400  */
+  --c-accent-2: 167 139 250; /* #A78BFA violet-400 */
+
   color-scheme: dark;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Offset for the sticky navbar when jumping to #projects etc. */
+    scroll-padding-top: 5rem;
+    background-color: rgb(var(--c-base));
+  }
+
+  body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply bg-base font-sans text-fg;
+  }
+
+  ::selection {
+    background-color: rgb(var(--c-accent) / 0.25);
+    color: rgb(var(--c-fg));
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-accent));
+    outline-offset: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* Thin, theme-aware scrollbar */
+  * {
+    scrollbar-color: rgb(var(--c-line)) transparent;
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--c-line));
+    border: 2px solid rgb(var(--c-base));
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(var(--c-muted) / 0.6);
+  }
+}
+
+@layer components {
+  /* Page width container used by every section */
+  .shell {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-surface shadow-soft;
+  }
+
+  .card-interactive {
+    @apply card transition duration-300 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lift;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition duration-200 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn text-white shadow-soft;
+    background-image: linear-gradient(
+      120deg,
+      rgb(var(--c-accent)) 0%,
+      rgb(var(--c-accent-2)) 100%
+    );
+  }
+
+  .btn-primary:hover {
+    box-shadow:
+      0 0 0 1px rgb(var(--c-accent) / 0.4),
+      0 16px 40px -14px rgb(var(--c-accent) / 0.55);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    @apply btn border border-line bg-surface text-fg hover:border-accent/50 hover:text-accent;
+  }
+
+  .btn-ghost {
+    @apply btn text-muted hover:bg-surface2 hover:text-fg;
+  }
+
+  /* Small pill used for tech stacks and metadata */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface2 px-2.5 py-1 text-xs font-medium text-muted;
+  }
+
+  .chip-accent {
+    @apply inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium;
+    background-color: rgb(var(--c-accent) / 0.12);
+    color: rgb(var(--c-accent));
+    border: 1px solid rgb(var(--c-accent) / 0.25);
+  }
+
+  /* Uppercase label that sits above a section title */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-accent;
+  }
+
+  .gradient-text {
+    @apply bg-accent-gradient bg-clip-text text-transparent;
+  }
+
+  /* Hairline divider that fades out at both ends */
+  .rule {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgb(var(--c-line)),
+      transparent
+    );
+  }
+
+  /* Placeholder shown by SmartImage while an asset has not been added yet */
+  .image-slot {
+    @apply relative flex flex-col items-center justify-center gap-2 overflow-hidden rounded-xl border border-dashed border-line bg-surface2 text-center text-muted;
+  }
+}
+
+@layer utilities {
+  /* Faint blueprint grid, used behind the hero */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgb(var(--c-line) / 0.55) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-line) / 0.55) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: center;
+  }
+
+  /* Radial mask so background art fades toward the edges */
+  .mask-fade {
+    -webkit-mask-image: radial-gradient(
+      ellipse 70% 60% at 50% 0%,
+      #000 40%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 70% 60% at 50% 0%,
+      #000 40%,
+      transparent 100%
+    );
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Respect the OS "reduce motion" setting */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 @media print {
   .no-print {
     display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
   }
 }
