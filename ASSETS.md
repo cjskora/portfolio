@@ -1,182 +1,140 @@
-# Adding your resume, images, and slide decks
+# Site assets
 
-Everything in `public/` is copied to the site root as-is, so a file saved at
-`public/resume.pdf` is served from
-`https://cjskora.github.io/portfolio/resume.pdf`.
+Everything in `public/` is copied to the site root as-is, so `public/resume.pdf`
+is served from `https://cjskora.github.io/portfolio/resume.pdf`.
 
-Nothing breaks while a file is missing. Image slots render a dashed placeholder
-labelled with the filename they expect, the resume page swaps its PDF preview
-for a short note, and each talk shows "Slides to be added" instead of linking to
-a 404. Add files whenever you're ready and push to `main` — the GitHub Actions
-workflow rebuilds and deploys automatically.
+**54 of the 63 referenced assets are in place.** They were extracted from your
+source material and mapped to the slots below. Anything still missing renders a
+labelled dashed placeholder rather than a broken image, so the site is safe to
+deploy as-is.
 
-## Resume
+Paths are declared in `src/data/content.js` and `src/data/site.js`, always
+wrapped in the `asset()` helper so they keep working under the `/portfolio/`
+sub-path.
 
-Save the PDF as `public/resume.pdf`. The Download button, the "Open in new tab"
-link, and the inline preview all point at that one file.
+## Where the images came from
 
-The filename visitors see when downloading is set by `resumeDownloadName` in
-`src/data/site.js`.
+| Source                                        | Used for                                                                                        |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `Website Image Reference.pdf`                 | Headshot, ski photo, bench/scope photos, control room, UV-Vis, SNOLAB environment, quantum dots |
+| `Winter 2026 Final Presentation - RAMPS.pptx` | Science Run 1 plots, detector photos, decay scheme, DAQ layout, SNOLAB logo                     |
+| `SNO+ Calibration presentation.pptx`          | Laserball, dye laser, residual and timing plots                                                 |
+| `RAMPS Science Run 1 Plots.pptx`              | Additional spectra                                                                              |
+| `Desktop/RAMPS/ScreenShots` + `Data`          | WaveDump captures, rise time, pulse decay, annotated 2D histogram                               |
+| `SIPM HOLDER - CTBT.pdf`                      | Rendered page 1 as the machining drawing                                                        |
 
-## Slide decks
+Images were pulled at original resolution (PowerPoint files are zip archives,
+so `ppt/media/` holds the untouched originals), then resized to a 1920 px long
+edge and saved as progressive JPEG. Photos at quality 85, plots and line art at
+93 so axis labels stay legible. Every file is under 500 KB; the whole build is
+about 17 MB.
 
-The Talks section links these. Already in place:
+## Still to add
 
-| File                             | Talk                                        |
-| -------------------------------- | ------------------------------------------- |
-| `documents/sipm-holder-ctbt.pdf` | SiPM holder drawing (linked from Project 1) |
+| File                                        | Slot                                 |
+| ------------------------------------------- | ------------------------------------ |
+| `images/logos/uwaterloo.png`                | Education entry on the Resume page   |
+| `images/projects/mis-cover.jpg`             | MIS project cover                    |
+| `images/projects/mis-wafer.jpg`             | MIS gallery                          |
+| `images/projects/mis-inspection.jpg`        | MIS gallery                          |
+| `images/projects/mis-cv-iv.jpg`             | MIS gallery                          |
+| `images/projects/teng-cover.jpg`            | Triboelectric project cover          |
+| `images/projects/teng-prototype-top.jpg`    | Triboelectric gallery, overhead shot |
+| `images/projects/teng-prototype-angled.jpg` | Triboelectric gallery, angled shot   |
+| `images/projects/teng-cad-blueprint.jpg`    | Triboelectric gallery, CAD blueprint |
 
-Still to add:
+The two triboelectric prototype photos exist only as chat attachments, not as
+files on this machine, so they could not be written automatically. Save them as
+`teng-prototype-top.jpg` (overhead, showing the strip and probe lead) and
+`teng-prototype-angled.jpg` (angled, on the test stand) in
+`public/images/projects/`. Either one cropped wide also works as the cover.
 
-| File                                          | Talk                                    |
-| --------------------------------------------- | --------------------------------------- |
-| `documents/ramps-science-run-1.pdf`           | RAMPS: Commissioning & Science Run 1    |
-| `documents/ramps-introduction.pdf`            | Introduction to the RAMPS Project       |
-| `documents/snoplus-laserball-calibration.pdf` | Calibration of SNO+ using the LaserBall |
+No MIS fabrication photos were found on disk. If you have wafer or micrograph
+shots from the NE 340L run, they go in the same folder.
 
-Export the three PowerPoint decks to PDF under those names and drop them in
-`public/documents/`. Titles, venues, and dates live in `talksData` in
-`src/data/content.js`.
-
-## Images
-
-All paths below are relative to `public/`. JPG is assumed but PNG and WebP work
-just as well — if you change the extension, update the matching path in
-`src/data/content.js` or `src/data/site.js`.
+## In place
 
 ### Identity
 
-| File                  | Where it appears                           | Suggested size          |
-| --------------------- | ------------------------------------------ | ----------------------- |
-| `images/headshot.jpg` | Hero, right-hand portrait card             | 900x1125 (4:5 portrait) |
-| `images/about.jpg`    | About section, lab photo                   | 1600x1200 (4:3)         |
-| `images/skiing.jpg`   | "Off the clock" personal card              | 1200x1200 (square-ish)  |
-| `images/og-image.jpg` | Link previews (Google, LinkedIn, iMessage) | 1200x630                |
+| File                  | Content                                          |
+| --------------------- | ------------------------------------------------ |
+| `images/headshot.jpg` | Portrait, cropped to 4:5 for the hero card       |
+| `images/about.jpg`    | SNOLAB underground drift                         |
+| `images/skiing.jpg`   | Ski photo for the "Off the clock" card           |
+| `images/og-image.jpg` | Team photo cropped to 1200x630 for link previews |
 
-From the photos you sent: the white-shirt portrait is `headshot.jpg`, the ski
-shot is `skiing.jpg`, and either SNOLAB environment photo works for `about.jpg`.
+`og-image.jpg` is referenced by absolute URL in `index.html`, not through
+`asset()`.
 
 ### Logos
 
-Transparent PNG or SVG works best. These are optional — the card simply omits
-the logo when the file is absent.
-
-| File                         | Where it appears                   | Suggested size |
-| ---------------------------- | ---------------------------------- | -------------- |
-| `images/logos/snolab.png`    | Both SNOLAB experience cards       | 128x128        |
-| `images/logos/uwaterloo.png` | Education entry on the Resume page | 128x128        |
+`images/logos/snolab.png` — SNOLAB wordmark, transparent PNG, on both SNOLAB
+experience cards.
 
 ### Project 1 — HPGe–SiPM Coincidence Detector
 
-| File                                          | Caption shown                                     |
-| --------------------------------------------- | ------------------------------------------------- |
-| `images/projects/ramps-detector-cover.jpg`    | cover                                             |
-| `images/projects/ramps-sipm-hpge-mounted.jpg` | SiPM board mounted to the HPGe endcap             |
-| `images/projects/ramps-shielding-cavity.jpg`  | Source and detector inside the shielding          |
-| `images/projects/ramps-sipm-holder-cad.jpg`   | CAD model of the SiPM holder                      |
-| `images/projects/ramps-bench-digitizer.jpg`   | Bench testing SiPM response through the digitizer |
-| `images/projects/ramps-oscilloscope.jpg`      | HPGe pulse checks on the oscilloscope             |
-| `images/projects/ramps-first-pulses.jpg`      | Finding the first coincidence waveforms           |
-
-Mapping from your "Website Image Reference" deck: the two "Initial Science Run
-SiPM & HPGe Detector setup" photos are the cover and `-sipm-hpge-mounted`, the
-copper cavity shot is `-shielding-cavity`, the CAD render is `-sipm-holder-cad`,
-the laptop and oscilloscope pair are `-bench-digitizer` and `-oscilloscope`, and
-the person at the laptop is `-first-pulses`.
+13 gallery images plus cover: the DAQ layout diagram, SiPM mounted to the HPGe
+endcap, detector inside the shielding, the SiPM holder CAD model and machining
+drawing, the Lu-176 decay scheme, the 27 keV cut equation, bench and
+oscilloscope testing, WaveDump captures, rise time and pulse decay, and finding
+the first coincidence waveforms.
 
 ### Project 2 — RAMPS Analysis Pipeline
 
-Screenshots from the Science Run 1 deck work directly here.
-
-| File                                        | Caption shown                              |
-| ------------------------------------------- | ------------------------------------------ |
-| `images/projects/ramps-pipeline-cover.jpg`  | cover                                      |
-| `images/projects/ramps-waveforms.jpg`       | Coincident SiPM and HPGe waveforms         |
-| `images/projects/ramps-hpge-spectrum.jpg`   | Energy-calibrated HPGe spectrum            |
-| `images/projects/ramps-sipm-spectrum.jpg`   | Calibrated SiPM energy spectrum            |
-| `images/projects/ramps-coincidence-2d.jpg`  | HPGe versus combined SiPM 2D map           |
-| `images/projects/ramps-roi-zoom.jpg`        | 50–110 keV zoom with the 3–27 keV SiPM cut |
-| `images/projects/ramps-calibration-fit.jpg` | HPGe calibration fit and residuals         |
+11 gallery images plus cover: coincident waveforms, the SiPM integration window,
+charge histogram peak finding and calibration, calibrated SiPM and HPGe spectra,
+charge versus amplitude linearity, the 2D coincidence map and your annotated
+working copy, the 50–110 keV ROI zoom, the no-cut/coincidence/ROI comparison,
+and an early commissioning spectrum.
 
 ### Project 3 — SNO+ Optical Calibration
 
-| File                                             | Caption shown                             |
-| ------------------------------------------------ | ----------------------------------------- |
-| `images/projects/snoplus-cover.jpg`              | cover                                     |
-| `images/projects/snoplus-laserball.jpg`          | Laserball source and umbilical assembly   |
-| `images/projects/snoplus-dye-laser.jpg`          | Dye laser cells                           |
-| `images/projects/snoplus-control-room.jpg`       | Control room during a deployment          |
-| `images/projects/snoplus-uvvis.jpg`              | UV-Vis spectrophotometer                  |
-| `images/projects/snoplus-position-residuals.jpg` | Position residuals across six wavelengths |
-| `images/projects/snoplus-timing.jpg`             | PMT hit-time residuals at 405 and 500 nm  |
+12 gallery images plus cover: the acrylic vessel, deployment geometry, Laserball
+assembly, dye laser and its measured emission spectra, position residuals across
+all six wavelengths plus the 405 nm and 500 nm cases broken out, hit-time
+residuals at both wavelengths, the control room, and the UV-Vis
+spectrophotometer.
 
-### Project 4 — MIS Capacitor Fabrication
+The Laserball assembly figure carries its citation in the caption
+(Valder et al. 2023, arXiv:2310.12745), since it was credited that way on your
+slide. The Zhang et al. absorption and re-emission figures were deliberately
+left out for the same reason — they are published figures and the text already
+covers the point they made. The Science Facts electron-capture diagram was also
+skipped; it carries a visible third-party watermark.
 
-| File                                 | Caption shown                           |
-| ------------------------------------ | --------------------------------------- |
-| `images/projects/mis-cover.jpg`      | cover                                   |
-| `images/projects/mis-wafer.jpg`      | Patterned wafer after selective etching |
-| `images/projects/mis-inspection.jpg` | Optical defect inspection               |
-| `images/projects/mis-cv-iv.jpg`      | C–V and I–V characterisation            |
+### Lab gallery
 
-### Project 5 — Triboelectric Nanogenerator
+Team photo, counting room, detector in the open shielding, scaffolding on the
+deck, the underground lab floor, and colloidal quantum dots under UV from
+NE 320L.
 
-| File                                        | Caption shown                     |
-| ------------------------------------------- | --------------------------------- |
-| `images/projects/teng-cover.jpg`            | cover                             |
-| `images/projects/teng-prototype-top.jpg`    | Printed rotor housing, overhead   |
-| `images/projects/teng-prototype-angled.jpg` | Assembled prototype on test stand |
-| `images/projects/teng-cad-blueprint.jpg`    | CAD blueprint of the assembly     |
+## Documents
 
-Your two prototype photos map to `-prototype-top` (overhead) and
-`-prototype-angled`. Either one cropped wide also works as the cover.
+| File                                          | Linked from                                 |
+| --------------------------------------------- | ------------------------------------------- |
+| `resume.pdf`                                  | Resume page: download, open, inline preview |
+| `documents/ramps-science-run-1.pdf`           | Talks                                       |
+| `documents/ramps-introduction.pdf`            | Talks                                       |
+| `documents/snoplus-laserball-calibration.pdf` | Talks                                       |
+| `documents/sipm-holder-ctbt.pdf`              | Project 1 links                             |
 
-Suggested size for covers: 1920x1080 or wider. Gallery images: 1200x900.
+`resume.pdf` is the `Resume-3.pdf` you provided. Overwrite it when you revise.
+The download filename shown to visitors is set by `resumeDownloadName` in
+`src/data/site.js`.
 
-### Lab gallery strip
+## Changing things
 
-The "From the lab" section on the home page. Captions live in `galleryData` in
-`src/data/content.js`.
-
-| File                                 | Caption shown                           |
-| ------------------------------------ | --------------------------------------- |
-| `images/gallery/ramps-group.jpg`     | The RAMPS team after Science Run 1      |
-| `images/gallery/snolab-deck.jpg`     | Scaffolding around the detector deck    |
-| `images/gallery/snolab-overview.jpg` | Looking down over the underground floor |
-| `images/gallery/quantum-dots.jpg`    | Colloidal quantum dots under UV         |
-| `images/gallery/cleanroom.jpg`       | Cleanroom and metrology suite           |
-| `images/gallery/sem.jpg`             | Scanning electron microscope session    |
+- Project covers, galleries, and captions: `projectsData` in `src/data/content.js`
+- Lab gallery: `galleryData`
+- Slide decks: `talksData`
+- Headshot, about photo, resume path, contact details: `src/data/site.js`
 
 Clicking any loaded gallery or project image opens a full-screen lightbox with
 arrow-key navigation. Placeholders are not clickable.
 
-> **On the cleanroom and SEM photos:** the two slots above are left for your own
-> photos. Images on the University of Waterloo Nanotechnology Engineering site
-> are the university's copyrighted material, so republishing them on a personal
-> site needs permission from the department. Easier options: take your own shots
-> next time you're in the suite, ask the department for permission or a media
-> kit, or delete those two entries from `galleryData` and let the grid reflow.
+## Also in public/
 
-## Adding, renaming, or removing slots
-
-Everything is data-driven, so you rarely need to touch a component:
-
-- Project covers and galleries: `projectsData` in `src/data/content.js`
-- Lab gallery: `galleryData`
-- Slide decks: `talksData`
-- Lab courses: `labCoursesData`
-- Headshot, about photo, resume path, contact details: `src/data/site.js`
-- Experience and education logos: `experienceData` / `educationData`
-
-Wrap every path in the `asset()` helper so it keeps working under the
-`/portfolio/` sub-path on GitHub Pages.
-
-Keep each file under roughly 500 KB so the page stays quick on mobile data.
-
-## Already in public/
-
-- `documents/sipm-holder-ctbt.pdf` — SiPM holder drawing, linked from Project 1
-- `favicon.svg` — blue CS monogram used as the browser tab icon
+- `favicon.svg` — blue CS monogram
 - `404.html` — GitHub Pages SPA fallback so `/portfolio/resume` works as a direct link
-- `robots.txt` and `sitemap.xml` — search engine crawling hints
-- `.nojekyll` — stops GitHub Pages from running Jekyll over the build output
+- `robots.txt` and `sitemap.xml` — crawling hints
+- `.nojekyll` — stops GitHub Pages running Jekyll over the build output

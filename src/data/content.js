@@ -252,16 +252,33 @@ export const projectsData = [
     cover: asset('images/projects/ramps-detector-cover.jpg'),
     gallery: [
       {
+        src: asset('images/projects/ramps-experiment-layout.jpg'),
+        caption:
+          'Dual coincidence layout: two HPGe channels and four SiPM channels into the digitizer',
+      },
+      {
         src: asset('images/projects/ramps-sipm-hpge-mounted.jpg'),
         caption: 'SiPM board mounted to the HPGe endcap inside the copper shielding',
       },
       {
         src: asset('images/projects/ramps-shielding-cavity.jpg'),
-        caption: 'Source and detector inside the ultra-low-background shielding',
+        caption: 'Detector and source inside the ultra-low-background shielding',
       },
       {
         src: asset('images/projects/ramps-sipm-holder-cad.jpg'),
         caption: 'CAD model of the SiPM holder designed for the next science run',
+      },
+      {
+        src: asset('images/projects/ramps-cad-drawing.jpg'),
+        caption: 'Machining drawing for the SiPM holder',
+      },
+      {
+        src: asset('images/projects/ramps-decay-scheme.jpg'),
+        caption: 'Lu-176 decay scheme: the EC* branch to Yb-176 against the dominant β− cascade',
+      },
+      {
+        src: asset('images/projects/ramps-27kev-cut.jpg'),
+        caption: 'The 27 keV cut: 109 keV EC Q-value minus the 82.13 keV gamma',
       },
       {
         src: asset('images/projects/ramps-bench-digitizer.jpg'),
@@ -270,6 +287,18 @@ export const projectsData = [
       {
         src: asset('images/projects/ramps-oscilloscope.jpg'),
         caption: 'HPGe pulse checks on the oscilloscope',
+      },
+      {
+        src: asset('images/projects/ramps-wavedump-pulses.jpg'),
+        caption: 'Full pulses captured in WaveDump2 during commissioning',
+      },
+      {
+        src: asset('images/projects/ramps-rise-time.jpg'),
+        caption: 'Pulse rise time measurement used to set the trigger',
+      },
+      {
+        src: asset('images/projects/ramps-pulse-decay.jpg'),
+        caption: 'Pulse decay characterisation',
       },
       {
         src: asset('images/projects/ramps-first-pulses.jpg'),
@@ -312,24 +341,44 @@ export const projectsData = [
         caption: 'Coincident SiPM and HPGe waveforms from a single event',
       },
       {
-        src: asset('images/projects/ramps-hpge-spectrum.jpg'),
-        caption: 'Energy-calibrated HPGe spectrum with the Lu-176 cascade lines',
+        src: asset('images/projects/ramps-integration-window.jpg'),
+        caption: 'SiPM integration window: 50 samples pre-peak, 350 post-peak',
+      },
+      {
+        src: asset('images/projects/ramps-sipm-calibration.jpg'),
+        caption: 'SiPM charge histogram, derivative peak finding, and the resulting calibration',
       },
       {
         src: asset('images/projects/ramps-sipm-spectrum.jpg'),
         caption: 'Calibrated SiPM energy spectrum',
       },
       {
+        src: asset('images/projects/ramps-charge-amplitude.jpg'),
+        caption: 'SiPM charge versus peak amplitude, confirming a linear response',
+      },
+      {
+        src: asset('images/projects/ramps-calibration-fit.jpg'),
+        caption: 'HPGe calibration fit with sub-keV residuals and the calibrated spectrum',
+      },
+      {
         src: asset('images/projects/ramps-coincidence-2d.jpg'),
         caption: 'HPGe versus combined SiPM energy, 2D coincidence map',
+      },
+      {
+        src: asset('images/projects/ramps-annotated-2d.jpg'),
+        caption: 'Working notes on the 2D histogram, identifying each line by hand',
       },
       {
         src: asset('images/projects/ramps-roi-zoom.jpg'),
         caption: '50–110 keV zoom: the 88.35 keV peak surviving the 3–27 keV SiPM cut',
       },
       {
-        src: asset('images/projects/ramps-calibration-fit.jpg'),
-        caption: 'HPGe calibration fit and residuals',
+        src: asset('images/projects/ramps-cut-comparison.jpg'),
+        caption: 'No cut against coincidence against SiPM ROI, log and linear',
+      },
+      {
+        src: asset('images/projects/ramps-early-spectrum.jpg'),
+        caption: 'An early pulse-height spectrum from the first commissioning runs',
       },
     ],
   },
@@ -358,12 +407,45 @@ export const projectsData = [
     cover: asset('images/projects/snoplus-cover.jpg'),
     gallery: [
       {
+        src: asset('images/projects/snoplus-vessel.jpg'),
+        caption: 'Inside the acrylic vessel during the scintillator phase',
+      },
+      {
+        src: asset('images/projects/snoplus-calibration-setup.jpg'),
+        caption: 'Laserball deployment geometry, from the clean room deck into the vessel',
+      },
+      {
         src: asset('images/projects/snoplus-laserball.jpg'),
-        caption: 'Laserball calibration source and umbilical assembly',
+        caption:
+          'Laserball source assembly (Fig. 2.8, Valder et al. 2023, arXiv:2310.12745)',
       },
       {
         src: asset('images/projects/snoplus-dye-laser.jpg'),
         caption: 'Dye laser cells generating the calibration wavelengths',
+      },
+      {
+        src: asset('images/projects/snoplus-laser-spectra.jpg'),
+        caption: 'Measured emission spectra for each dye against the N2 laser line',
+      },
+      {
+        src: asset('images/projects/snoplus-position-residuals.jpg'),
+        caption: 'Position reconstruction residuals across all six wavelengths',
+      },
+      {
+        src: asset('images/projects/snoplus-residual-405.jpg'),
+        caption: 'Y residual at 405 nm, rising steadily with true position',
+      },
+      {
+        src: asset('images/projects/snoplus-residual-500.jpg'),
+        caption: 'Y residual at 500 nm, where the trend inverts',
+      },
+      {
+        src: asset('images/projects/snoplus-timing-405.jpg'),
+        caption: 'PMT hit-time residuals at 405 nm, showing pre-fire and re-emission',
+      },
+      {
+        src: asset('images/projects/snoplus-timing-500.jpg'),
+        caption: 'PMT hit-time residuals at 500 nm, with no re-emission shoulder',
       },
       {
         src: asset('images/projects/snoplus-control-room.jpg'),
@@ -372,14 +454,6 @@ export const projectsData = [
       {
         src: asset('images/projects/snoplus-uvvis.jpg'),
         caption: 'UV-Vis spectrophotometer used for scintillator optical QA',
-      },
-      {
-        src: asset('images/projects/snoplus-position-residuals.jpg'),
-        caption: 'Position reconstruction residuals across six wavelengths',
-      },
-      {
-        src: asset('images/projects/snoplus-timing.jpg'),
-        caption: 'PMT hit-time residuals at 405 nm and 500 nm',
       },
     ],
   },
@@ -545,7 +619,15 @@ export const talksData = [
 export const galleryData = [
   {
     src: asset('images/gallery/ramps-group.jpg'),
-    caption: 'The RAMPS team after Science Run 1',
+    caption: 'The RAMPS team during Science Run 1',
+  },
+  {
+    src: asset('images/gallery/ramps-team-selfie.jpg'),
+    caption: 'Late night in the counting room',
+  },
+  {
+    src: asset('images/gallery/detector-bench.jpg'),
+    caption: 'Detector and cabling inside the open shielding',
   },
   {
     src: asset('images/gallery/snolab-deck.jpg'),
@@ -558,13 +640,5 @@ export const galleryData = [
   {
     src: asset('images/gallery/quantum-dots.jpg'),
     caption: 'Colloidal quantum dots under UV excitation, NE 320L',
-  },
-  {
-    src: asset('images/gallery/cleanroom.jpg'),
-    caption: 'Cleanroom and metrology suite at Waterloo',
-  },
-  {
-    src: asset('images/gallery/sem.jpg'),
-    caption: 'Scanning electron microscope session',
   },
 ]
