@@ -4,6 +4,9 @@
 // light and dark palettes stay in one place. Each variable holds a raw
 // "R G B" triplet, which lets Tailwind keep its opacity modifiers working
 // (e.g. `bg-accent/10`).
+//
+// The palette is intentionally a single blue accent with no gradients. Depth
+// comes from opacity and surface layering, not from colour blending.
 const token = (name) => `rgb(var(${name}) / <alpha-value>)`;
 
 export default {
@@ -19,7 +22,8 @@ export default {
         fg: token("--c-fg"),
         muted: token("--c-muted"),
         accent: token("--c-accent"),
-        accent2: token("--c-accent-2"),
+        // Deeper blue for hover/pressed states on solid accent fills.
+        "accent-deep": token("--c-accent-deep"),
       },
       fontFamily: {
         sans: [
@@ -47,10 +51,6 @@ export default {
         "glow-accent":
           "0 0 0 1px rgb(var(--c-accent) / 0.35), 0 12px 40px -12px rgb(var(--c-accent) / 0.45)",
       },
-      backgroundImage: {
-        "accent-gradient":
-          "linear-gradient(120deg, rgb(var(--c-accent)) 0%, rgb(var(--c-accent-2)) 100%)",
-      },
       keyframes: {
         "fade-up": {
           from: { opacity: "0", transform: "translateY(12px)" },
@@ -60,14 +60,22 @@ export default {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
         },
-        shimmer: {
-          "100%": { transform: "translateX(100%)" },
+        // Slow rotation for the decorative nano orbital rings.
+        spin_slow: {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        drift: {
+          "0%, 100%": { transform: "translate3d(0, 0, 0)" },
+          "50%": { transform: "translate3d(0, -14px, 0)" },
         },
       },
       animation: {
         "fade-up": "fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both",
         float: "float 8s ease-in-out infinite",
-        shimmer: "shimmer 2.2s infinite",
+        "spin-slow": "spin_slow 70s linear infinite",
+        "spin-slower": "spin_slow 120s linear infinite reverse",
+        drift: "drift 12s ease-in-out infinite",
       },
     },
   },

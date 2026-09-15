@@ -34,20 +34,31 @@ Colours are CSS custom properties defined once in `src/index.css` (`:root` for
 light, `html.dark` for dark) and exposed to Tailwind as semantic names in
 `tailwind.config.js`:
 
-| Token      | Use                             |
-| ---------- | ------------------------------- |
-| `base`     | page background                 |
-| `surface`  | cards and raised panels         |
-| `surface2` | subtle fills, alternating bands |
-| `line`     | borders and dividers            |
-| `fg`       | primary text                    |
-| `muted`    | secondary text                  |
-| `accent`   | primary accent (sky)            |
-| `accent2`  | secondary accent (violet)       |
+| Token         | Use                                     |
+| ------------- | --------------------------------------- |
+| `base`        | page background                         |
+| `surface`     | cards and raised panels                 |
+| `surface2`    | subtle fills, alternating bands         |
+| `line`        | borders and dividers                    |
+| `fg`          | primary text                            |
+| `muted`       | secondary text                          |
+| `accent`      | the single blue accent                  |
+| `accent-deep` | hover/pressed state on solid blue fills |
+
+The palette is deliberately one blue with no gradients. Depth comes from opacity
+and surface layering (`bg-accent/10`, `border-accent/30`) rather than colour
+blending. The only gradients left are single-hue or pure alpha: the fading
+hairline divider, the blueprint grid, the atomic dot lattice, the scrims that
+keep badges legible over photos, and the masks that fade decorative art out.
 
 Changing the palette means editing those variables, not hunting through
 components. Reusable class recipes (`.card`, `.btn-primary`, `.chip`, `.shell`,
-`.eyebrow`) also live in `src/index.css`.
+`.eyebrow`, `.bg-lattice`) also live in `src/index.css`.
+
+Decorative nano-themed background art lives in `src/components/NanoBackdrop.jsx`
+as inline SVG: `hex` (graphene lattice), `orbits` (electron shells), `wafer`
+(diffraction arcs), and `lattice` (atomic dot plane). It recolours with the theme
+and costs no image requests.
 
 ## Project structure
 
@@ -55,6 +66,7 @@ components. Reusable class recipes (`.card`, `.btn-primary`, `.chip`, `.shell`,
 ├── .github/workflows/deploy.yml   # build + deploy to GitHub Pages
 ├── public/                        # copied verbatim to the site root
 │   ├── images/                    # headshot, about, logos, projects, gallery
+│   ├── documents/                 # SiPM holder drawing, talk slide decks
 │   ├── resume.pdf                 # add manually
 │   ├── 404.html                   # SPA fallback for deep links
 │   └── favicon.svg, robots.txt, sitemap.xml, .nojekyll
@@ -66,19 +78,23 @@ components. Reusable class recipes (`.card`, `.btn-primary`, `.chip`, `.shell`,
 │   │   ├── ExperienceCard.jsx     # timeline entry
 │   │   ├── Footer.jsx
 │   │   ├── Gallery.jsx            # image grid + lightbox
-│   │   ├── Hero.jsx               # hero and stats strip
+│   │   ├── Hero.jsx
 │   │   ├── Icon.jsx               # inline icon set
+│   │   ├── LabCourses.jsx         # NE laboratory course sequence
 │   │   ├── Lightbox.jsx           # full-screen image viewer
+│   │   ├── NanoBackdrop.jsx       # decorative nano SVG background art
 │   │   ├── Navbar.jsx             # sticky nav with scrollspy
+│   │   ├── Personal.jsx           # short personal aside
 │   │   ├── ProjectCard.jsx        # expandable project card
 │   │   ├── Reveal.jsx             # scroll-triggered animation wrapper
 │   │   ├── ScrollManager.jsx      # hash + route scroll handling
 │   │   ├── ScrollProgress.jsx
 │   │   ├── Section.jsx            # section shell and spacing
 │   │   ├── SectionHeading.jsx
-│   │   ├── SkillsGrid.jsx
+│   │   ├── SkillsGrid.jsx         # toolkit, with highlighted groups
 │   │   ├── SmartImage.jsx         # image with placeholder fallback
 │   │   ├── SocialLinks.jsx
+│   │   ├── Talks.jsx              # seminar slide decks
 │   │   └── ThemeToggle.jsx
 │   ├── context/ThemeContext.jsx   # dark/light state
 │   ├── data/

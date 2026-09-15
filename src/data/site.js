@@ -3,11 +3,13 @@ import { asset } from '../utils/asset'
 export const siteConfig = {
   name: 'Christopher Skora',
   title: 'Nanotechnology Engineering Student',
-  tagline: 'Radiation detectors, coincidence spectroscopy, and the analysis pipelines behind them.',
-  location: 'Waterloo, ON / Lively, ON',
+  tagline:
+    'Detector systems, nanofabrication, and the analysis pipelines that turn raw signals into results.',
+  location: 'Waterloo, ON',
   url: 'https://cjskora.github.io/portfolio/',
-  email: 'cjskora@gmail.com',
-  schoolEmail: 'cjskora@uwaterloo.ca',
+  email: 'cjskora@uwaterloo.ca',
+  altEmail: 'cjskora@gmail.com',
+  phone: '289-707-5581',
   linkedin: 'https://www.linkedin.com/in/cjskora/',
   github: 'https://github.com/cjskora',
 

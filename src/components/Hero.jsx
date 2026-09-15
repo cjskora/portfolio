@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import Icon from './Icon'
+import { HexLattice, Orbits } from './NanoBackdrop'
 import SmartImage from './SmartImage'
 import SocialLinks from './SocialLinks'
 import { siteConfig } from '../data/site'
-import { statsData } from '../data/content'
 
 const EASE = [0.22, 1, 0.36, 1]
 const rise = (delay) => ({
@@ -13,14 +13,24 @@ const rise = (delay) => ({
   transition: { duration: 0.7, delay, ease: EASE },
 })
 
+// `isolate` on the section makes it its own stacking context. Without it the
+// -z-10 backdrop paints before the app wrapper's opaque background and vanishes
+// behind it.
 function Hero() {
   return (
-    <section className="relative overflow-hidden">
-      {/* Background art */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="bg-grid mask-fade absolute inset-0 opacity-70" />
-        <div className="absolute -top-32 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-accent/20 blur-[120px]" />
-        <div className="absolute -right-24 top-40 h-[320px] w-[320px] rounded-full bg-accent2/20 blur-[110px]" />
+    <section className="relative isolate overflow-hidden">
+      {/* Nano-themed background art: graphene lattice, orbital shells, and a
+          soft blue wash. All decorative and hidden from assistive tech. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+      >
+        <div className="mask-fade absolute inset-0 text-accent/40 dark:text-accent/28">
+          <HexLattice className="absolute inset-0" />
+        </div>
+        <Orbits className="absolute -right-24 -top-32 h-[520px] w-[520px] animate-drift text-accent/60 dark:text-accent/50" />
+        <Orbits className="absolute -bottom-64 -left-40 hidden h-[440px] w-[440px] text-accent/35 lg:block" />
+        <div className="absolute -top-32 left-1/2 h-[420px] w-[760px] -translate-x-1/2 rounded-full bg-accent/15 blur-[130px]" />
       </div>
 
       <div className="shell pb-16 pt-14 sm:pb-20 sm:pt-20 lg:pb-24 lg:pt-24">
@@ -46,15 +56,16 @@ function Hero() {
               className="mt-6 text-4xl font-extrabold leading-[1.05] text-fg sm:text-5xl lg:text-6xl"
             >
               {siteConfig.name}
-              <span className="mt-2 block text-2xl font-bold sm:text-3xl lg:text-4xl">
-                <span className="gradient-text">{siteConfig.title}</span>
+              <span className="mt-2 block text-2xl font-bold text-accent sm:text-3xl lg:text-4xl">
+                {siteConfig.title}
               </span>
             </motion.h1>
 
             <motion.p {...rise(0.16)} className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-              University of Waterloo student working on experimental physics instrumentation.
-              I build and characterise radiation detector systems, tune digitizers and coincidence
-              logic, and write the Python pipelines that turn raw waveforms into calibrated spectra.
+              University of Waterloo student working on experimental physics instrumentation and
+              nanoscale devices. I build and commission radiation detectors, tune digitizers and
+              coincidence logic, fabricate in the cleanroom, and write the Python that turns raw
+              waveforms into calibrated results.
             </motion.p>
 
             <motion.div {...rise(0.24)} className="mt-8 flex flex-wrap items-center gap-3">
@@ -81,10 +92,10 @@ function Hero() {
             className="relative mx-auto w-full max-w-sm lg:max-w-none"
           >
             <div className="relative">
-              {/* Soft gradient frame behind the photo */}
+              {/* Soft blue halo behind the photo */}
               <div
                 aria-hidden="true"
-                className="absolute -inset-3 rounded-4xl bg-accent-gradient opacity-20 blur-2xl"
+                className="absolute -inset-3 rounded-4xl bg-accent/20 blur-2xl"
               />
 
               <div className="card relative overflow-hidden rounded-4xl p-2">
@@ -102,35 +113,19 @@ function Hero() {
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-                className="card absolute -bottom-6 -left-4 hidden w-52 gap-3 p-4 sm:flex"
+                className="card absolute -bottom-6 -left-4 hidden w-56 gap-3 p-4 sm:flex"
               >
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent/12 text-accent">
                   <Icon name="wave" />
                 </span>
                 <div>
                   <p className="text-xs font-semibold text-fg">Coincidence spectroscopy</p>
-                  <p className="mt-0.5 font-mono text-[11px] text-muted">SiPM + HPGe</p>
+                  <p className="mt-0.5 font-mono text-[11px] text-muted">HPGe + SiPM at SNOLAB</p>
                 </div>
               </motion.div>
             </div>
           </motion.div>
         </div>
-
-        {/* Stats */}
-        <motion.dl
-          {...rise(0.4)}
-          className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:mt-20 lg:grid-cols-4"
-        >
-          {statsData.map((stat) => (
-            <div key={stat.label} className="bg-surface px-5 py-6 text-center sm:text-left">
-              <dt className="sr-only">{stat.label}</dt>
-              <dd>
-                <span className="block text-2xl font-bold text-fg sm:text-3xl">{stat.value}</span>
-                <span className="mt-1 block text-xs leading-snug text-muted">{stat.label}</span>
-              </dd>
-            </div>
-          ))}
-        </motion.dl>
       </div>
     </section>
   )

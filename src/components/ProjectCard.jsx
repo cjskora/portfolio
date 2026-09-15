@@ -68,6 +68,14 @@ function ProjectCard({ project, index = 0, featured = false, className = '' }) {
         <h3 className="text-lg font-bold leading-snug text-fg sm:text-xl">{project.title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted">{project.shortDescription}</p>
 
+        {/* Status note worth seeing without expanding the card. */}
+        {project.note && (
+          <p className="mt-4 flex items-start gap-2.5 rounded-xl border border-accent/25 bg-accent/10 px-3.5 py-2.5 text-sm font-medium text-accent">
+            <Icon name="sparkle" className="mt-0.5 h-4 w-4 shrink-0" />
+            {project.note}
+          </p>
+        )}
+
         <div className="mt-4 flex flex-wrap gap-2">
           {project.techStack.slice(0, 4).map((tech) => (
             <span key={tech} className="chip-accent">
@@ -110,6 +118,30 @@ function ProjectCard({ project, index = 0, featured = false, className = '' }) {
                 <h4 className="eyebrow">Overview</h4>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{project.fullDescription}</p>
               </div>
+
+              {project.links?.length > 0 && (
+                <div>
+                  <h4 className="eyebrow">Links</h4>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {project.links.map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        {...(link.external
+                          ? { target: '_blank', rel: 'noopener noreferrer' }
+                          : { target: '_blank', rel: 'noopener' })}
+                        className="btn-outline px-4 py-2 text-xs"
+                      >
+                        <Icon name={link.icon || 'external'} className="h-4 w-4" />
+                        {link.label}
+                      </a>
+                    ))}
+                  </div>
+                  {project.linkNote && (
+                    <p className="mt-3 text-xs leading-relaxed text-muted">{project.linkNote}</p>
+                  )}
+                </div>
+              )}
 
               {project.achievements?.length > 0 && (
                 <div>

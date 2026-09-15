@@ -15,22 +15,22 @@
   --c-surface-2: 241 245 249; /* #F1F5F9 subtle fills     */
   --c-line: 224 231 240; /* #E0E7F0 borders          */
   --c-fg: 14 22 40; /* #0E1628 body text        */
-  --c-muted: 84 100 124; /* #54647C secondary text   */
-  --c-accent: 2 132 199; /* #0284C7 sky-600          */
-  --c-accent-2: 109 40 217; /* #6D28D9 violet-700       */
+  --c-muted: 82 98 122; /* #52627A secondary text   */
+  --c-accent: 37 99 235; /* #2563EB blue-600         */
+  --c-accent-deep: 29 78 216; /* #1D4ED8 blue-700         */
 
   color-scheme: light;
 }
 
 html.dark {
-  --c-base: 9 13 20; /* #090D14 */
-  --c-surface: 16 22 32; /* #101620 */
-  --c-surface-2: 22 30 43; /* #161E2B */
-  --c-line: 33 44 60; /* #212C3C */
-  --c-fg: 229 237 247; /* #E5EDF7 */
-  --c-muted: 145 162 184; /* #91A2B8 */
-  --c-accent: 56 189 248; /* #38BDF8 sky-400  */
-  --c-accent-2: 167 139 250; /* #A78BFA violet-400 */
+  --c-base: 8 12 21; /* #080C15 */
+  --c-surface: 15 21 33; /* #0F1521 */
+  --c-surface-2: 21 29 44; /* #151D2C */
+  --c-line: 31 42 60; /* #1F2A3C */
+  --c-fg: 226 236 248; /* #E2ECF8 */
+  --c-muted: 142 159 184; /* #8E9FB8 */
+  --c-accent: 96 165 250; /* #60A5FA blue-400 */
+  --c-accent-deep: 59 130 246; /* #3B82F6 blue-500 */
 
   color-scheme: dark;
 }
@@ -116,16 +116,20 @@ html.dark {
     @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition duration-200 disabled:pointer-events-none disabled:opacity-50;
   }
 
+  /* Solid blue fill. In dark mode the accent is light, so the label flips to
+     a dark ink colour to keep contrast well above 4.5:1. */
   .btn-primary {
-    @apply btn text-white shadow-soft;
-    background-image: linear-gradient(
-      120deg,
-      rgb(var(--c-accent)) 0%,
-      rgb(var(--c-accent-2)) 100%
-    );
+    @apply btn shadow-soft;
+    background-color: rgb(var(--c-accent));
+    color: #fff;
+  }
+
+  html.dark .btn-primary {
+    color: rgb(var(--c-base));
   }
 
   .btn-primary:hover {
+    background-color: rgb(var(--c-accent-deep));
     box-shadow:
       0 0 0 1px rgb(var(--c-accent) / 0.4),
       0 16px 40px -14px rgb(var(--c-accent) / 0.55);
@@ -157,10 +161,6 @@ html.dark {
     @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-accent;
   }
 
-  .gradient-text {
-    @apply bg-accent-gradient bg-clip-text text-transparent;
-  }
-
   /* Hairline divider that fades out at both ends */
   .rule {
     height: 1px;
@@ -186,6 +186,24 @@ html.dark {
       linear-gradient(90deg, rgb(var(--c-line) / 0.55) 1px, transparent 1px);
     background-size: 56px 56px;
     background-position: center;
+  }
+
+  /* Atomic dot lattice, evokes a crystal plane. Two offset layers give the
+     staggered close-packed look rather than a plain square grid. */
+  .bg-lattice {
+    background-image:
+      radial-gradient(rgb(var(--c-accent) / 0.28) 1.2px, transparent 1.2px),
+      radial-gradient(rgb(var(--c-accent) / 0.16) 1.2px, transparent 1.2px);
+    background-size: 42px 42px;
+    background-position:
+      0 0,
+      21px 21px;
+  }
+
+  /* Mask that fades art out toward the bottom of a block */
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 35%, transparent 100%);
   }
 
   /* Radial mask so background art fades toward the edges */

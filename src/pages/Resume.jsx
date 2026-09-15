@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import ExperienceCard from '../components/ExperienceCard'
 import Icon from '../components/Icon'
+import LabCourses from '../components/LabCourses'
+import { HexLattice } from '../components/NanoBackdrop'
 import Reveal from '../components/Reveal'
 import SmartImage from '../components/SmartImage'
 import SkillsGrid from '../components/SkillsGrid'
@@ -47,13 +49,16 @@ function useResumeAvailable(url) {
   return available
 }
 
+// `isolate` keeps the -z-10 backdrop above the app wrapper's background.
 function Resume() {
   const pdfAvailable = useResumeAvailable(siteConfig.resumePdf)
 
   return (
-    <div className="relative">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-80">
-        <div className="bg-grid mask-fade absolute inset-0 opacity-60" />
+    <div className="relative isolate overflow-hidden">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-96">
+        <div className="mask-fade absolute inset-0 text-accent/35">
+          <HexLattice className="absolute inset-0" />
+        </div>
         <div className="absolute -top-24 left-1/2 h-64 w-[560px] -translate-x-1/2 rounded-full bg-accent/20 blur-[110px]" />
       </div>
 
@@ -71,6 +76,17 @@ function Resume() {
             </p>
 
             <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-muted">
+              <span className="inline-flex items-center gap-1.5">
+                <Icon name="mapPin" className="h-4 w-4" />
+                {siteConfig.location}
+              </span>
+              <a
+                href={`tel:${siteConfig.phone.replace(/[^\d+]/g, '')}`}
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
+              >
+                <Icon name="chip" className="h-4 w-4" />
+                {siteConfig.phone}
+              </a>
               <a
                 href={`mailto:${siteConfig.email}`}
                 className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
@@ -222,10 +238,18 @@ function Resume() {
             </ol>
           </div>
 
-          {/* Skills */}
+          {/* Laboratory coursework */}
           <div className="mt-14">
             <Reveal>
-              <SectionTitle icon="code">Technical skills</SectionTitle>
+              <SectionTitle icon="beaker">Laboratory coursework</SectionTitle>
+            </Reveal>
+            <LabCourses />
+          </div>
+
+          {/* Toolkit */}
+          <div className="mt-14">
+            <Reveal>
+              <SectionTitle icon="code">Technical toolkit</SectionTitle>
             </Reveal>
             <SkillsGrid />
           </div>

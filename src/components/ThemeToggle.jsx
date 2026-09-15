@@ -22,7 +22,7 @@ function ThemeToggle() {
       <motion.span
         layout
         transition={{ type: 'spring', stiffness: 500, damping: 34 }}
-        className={`absolute h-7 w-7 rounded-full bg-accent-gradient shadow-soft ${
+        className={`absolute h-7 w-7 rounded-full bg-accent shadow-soft ${
           isDark ? 'left-1' : 'left-[34px]'
         }`}
         aria-hidden="true"

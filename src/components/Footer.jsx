@@ -6,9 +6,11 @@ import { siteConfig } from '../data/site'
 const sections = [
   { label: 'About', to: '/#about' },
   { label: 'Projects', to: '/#projects' },
-  { label: 'Gallery', to: '/#gallery' },
+  { label: 'Toolkit', to: '/#toolkit' },
   { label: 'Experience', to: '/#experience' },
-  { label: 'Skills', to: '/#skills' },
+  { label: 'Labs', to: '/#labs' },
+  { label: 'Talks', to: '/#talks' },
+  { label: 'Gallery', to: '/#gallery' },
   { label: 'Resume', to: '/resume' },
 ]
 
@@ -19,7 +21,7 @@ function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr]">
           <div>
             <Link to="/" className="inline-flex items-center gap-2.5">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-accent-gradient text-sm font-bold text-white">
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-accent text-sm font-bold text-white dark:text-base">
                 CS
               </span>
               <span className="text-sm font-semibold text-fg">{siteConfig.name}</span>
@@ -52,17 +54,17 @@ function Footer() {
                   href={`mailto:${siteConfig.email}`}
                   className="inline-flex items-center gap-2 text-muted transition-colors hover:text-accent"
                 >
-                  <Icon name="mail" className="h-4 w-4" />
+                  <Icon name="graduation" className="h-4 w-4" />
                   {siteConfig.email}
                 </a>
               </li>
               <li>
                 <a
-                  href={`mailto:${siteConfig.schoolEmail}`}
+                  href={`mailto:${siteConfig.altEmail}`}
                   className="inline-flex items-center gap-2 text-muted transition-colors hover:text-accent"
                 >
-                  <Icon name="graduation" className="h-4 w-4" />
-                  {siteConfig.schoolEmail}
+                  <Icon name="mail" className="h-4 w-4" />
+                  {siteConfig.altEmail}
                 </a>
               </li>
             </ul>

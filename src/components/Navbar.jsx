@@ -8,8 +8,9 @@ import { siteConfig } from '../data/site'
 const sectionLinks = [
   { id: 'about', label: 'About' },
   { id: 'projects', label: 'Projects' },
+  { id: 'toolkit', label: 'Toolkit' },
   { id: 'experience', label: 'Experience' },
-  { id: 'skills', label: 'Skills' },
+  { id: 'labs', label: 'Labs' },
 ]
 
 function useScrolled(threshold = 8) {
@@ -86,7 +87,7 @@ function Navbar() {
       <nav className="shell" aria-label="Main">
         <div className="flex h-16 items-center justify-between gap-4">
           <Link to="/" className="group flex items-center gap-2.5" aria-label="Home">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-accent-gradient text-sm font-bold text-white shadow-soft">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-accent text-sm font-bold text-white shadow-soft dark:text-base">
               CS
             </span>
             <span className="hidden text-sm font-semibold text-fg sm:block">

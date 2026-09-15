@@ -12,7 +12,7 @@ function Contact() {
         <div className="absolute -top-24 left-1/2 h-64 w-[520px] -translate-x-1/2 rounded-full bg-accent/20 blur-[100px]" />
       </div>
 
-      <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-accent-gradient text-white shadow-soft">
+      <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-accent text-white shadow-soft dark:text-base">
         <Icon name="mail" />
       </span>
 

@@ -11,7 +11,7 @@ function About() {
         <Reveal className="relative lg:sticky lg:top-24">
           <div
             aria-hidden="true"
-            className="absolute -inset-2 rounded-4xl bg-accent-gradient opacity-[0.12] blur-2xl"
+            className="absolute -inset-2 rounded-4xl bg-accent/15 blur-2xl"
           />
           <figure className="card relative overflow-hidden rounded-3xl p-2">
             <SmartImage
